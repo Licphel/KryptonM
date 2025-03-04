@@ -30,10 +30,10 @@ public class I18N
         if(!Langs.ContainsKey(LangKey)) return idt.Full;
 
         IBinaryCompound compound = Langs[LangKey][idt.Space];
-        var urep = compound.Search<string>(idt.Key) ?? idt.Full;
+        string urep = compound.Search<string>(idt.Key) ?? idt.Full;
 
-        var i = 0;
-        foreach(var r in repmt) urep = urep.Replace("${" + i + "}", r);
+        int i = 0;
+        foreach(string r in repmt) urep = urep.Replace("${" + i + "}", r);
 
         return urep;
     }

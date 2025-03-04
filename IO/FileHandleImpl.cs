@@ -48,8 +48,8 @@ public class FileHandleImpl : FileHandle
 
     public FileHandle Exit()
     {
-        var idx = Path.LastIndexOf('/');
-        var call = Path.Substring(0, idx);
+        int idx = Path.LastIndexOf('/');
+        string call = Path.Substring(0, idx);
         return new FileHandleImpl(call);
     }
 
@@ -70,7 +70,7 @@ public class FileHandleImpl : FileHandle
     {
         get
         {
-            var idx = Path.LastIndexOf('.');
+            int idx = Path.LastIndexOf('.');
             return Path.Substring(idx + 1);
         }
     }
@@ -100,14 +100,14 @@ public class FileHandleImpl : FileHandle
         {
             if(IsDirectory)
             {
-                var idx1 = Path.LastIndexOf('/') + 1;
+                int idx1 = Path.LastIndexOf('/') + 1;
                 return Path.Substring(idx1);
             }
 
             if(IsFile)
             {
-                var idx = Path.LastIndexOf('.');
-                var idx1 = Path.LastIndexOf('/') + 1;
+                int idx = Path.LastIndexOf('.');
+                int idx1 = Path.LastIndexOf('/') + 1;
                 return Path.Substring(idx1, idx - idx1);
             }
 

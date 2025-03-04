@@ -112,7 +112,7 @@ public class LoadingQueue
 
     public void Load(FileHandle file, bool preload = false)
     {
-        var resName = file.Path.Replace(Filebase.Path + "/", "");
+        string resName = file.Path.Replace(Filebase.Path + "/", "");
         AddLoadTask(resName, file, preload);
     }
 

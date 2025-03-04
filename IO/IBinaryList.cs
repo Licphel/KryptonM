@@ -25,7 +25,7 @@ public interface IBinaryList : IEnumerable<object>
     {
         IBinaryList lst = _Copy();
 
-        foreach(var o in this)
+        foreach(object o in this)
             switch(o)
             {
                 case IBinaryCompound c1:
@@ -46,10 +46,10 @@ public interface IBinaryList : IEnumerable<object>
     {
         if(Count != list.Count) return false;
 
-        for(var i = 0; i < list.Count; i++)
+        for(int i = 0; i < list.Count; i++)
         {
-            var o1 = Get<object>(i);
-            var o2 = list.Get<object>(i);
+            object o1 = Get<object>(i);
+            object o2 = list.Get<object>(i);
 
             if(o1.GetType() != o2.GetType()) return false;
 

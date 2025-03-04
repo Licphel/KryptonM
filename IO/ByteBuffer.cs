@@ -42,8 +42,8 @@ public partial class ByteBuffer
 
     public void WriteByte(byte value)
     {
-        var afterLen = WriteIndex + 1;
-        var len = Buf.Length;
+        int afterLen = WriteIndex + 1;
+        int len = Buf.Length;
         FixSizeAndReset(len, afterLen);
         Buf[WriteIndex] = value;
         WriteIndex = afterLen;
@@ -51,7 +51,7 @@ public partial class ByteBuffer
 
     public void WriteByte(int value)
     {
-        var b = (byte)value;
+        byte b = (byte)value;
         WriteByte(b);
     }
 
@@ -69,7 +69,7 @@ public partial class ByteBuffer
     {
         WriteInt(value.Length);
 
-        for(var i = 0; i < value.Length; i++) WriteChar(value[i]);
+        for(int i = 0; i < value.Length; i++) WriteChar(value[i]);
     }
 
     public void WriteBoolean(bool value)
@@ -114,17 +114,17 @@ public partial class ByteBuffer
 
     public string ReadString()
     {
-        var len = ReadInt();
-        var chars = new char[len];
+        int len = ReadInt();
+        char[] chars = new char[len];
 
-        for(var i = 0; i < len; i++) chars[i] = ReadChar();
+        for(int i = 0; i < len; i++) chars[i] = ReadChar();
 
         return new string(chars);
     }
 
     public void ReadBytes(byte[] bytes, int len)
     {
-        for(var i = 0; i < len; i++) bytes[i] = ReadByte();
+        for(int i = 0; i < len; i++) bytes[i] = ReadByte();
     }
 
 }

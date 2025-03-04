@@ -24,15 +24,15 @@ public interface IBinaryCompound : IEnumerable<KeyValuePair<string, object>>
 
     public T Search<T>(string treekey)
     {
-        var keys = treekey.Split('.');
+        string[]? keys = treekey.Split('.');
 
         if(keys == null || keys.Length <= 1)
             return Get<T>(treekey);
 
         IBinaryCompound c = null;
-        for(var i = 0; i < keys.Length; i++)
+        for(int i = 0; i < keys.Length; i++)
         {
-            var k = keys[i];
+            string k = keys[i];
             if(i == 0)
                 c = GetCompoundSafely(k);
             else if(i == keys.Length - 1)
@@ -105,8 +105,8 @@ public interface IBinaryCompound : IEnumerable<KeyValuePair<string, object>>
 
         foreach(KeyValuePair<string, object> kv in compound)
         {
-            var o1 = kv.Value;
-            var o2 = Get<object>(kv.Key);
+            object o1 = kv.Value;
+            object o2 = Get<object>(kv.Key);
 
             if(o1.GetType() != o2.GetType()) return false;
 

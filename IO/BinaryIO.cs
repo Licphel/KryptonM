@@ -54,8 +54,8 @@ public class BinaryIO
     {
         foreach(KeyValuePair<string, object> pair in compound)
         {
-            var key = pair.Key;
-            var val = pair.Value;
+            string key = pair.Key;
+            object val = pair.Value;
 
             output.WriteByte(GetId(val));
             output.WriteString(key);
@@ -71,12 +71,12 @@ public class BinaryIO
 
         while(true)
         {
-            var id = input.ReadByte();
+            byte id = input.ReadByte();
 
             if(id == 0) break;
 
-            var key = input.ReadString();
-            var data = DecodePrimitive(input, id);
+            string key = input.ReadString();
+            object data = DecodePrimitive(input, id);
             compound.Set(key, data);
         }
 
@@ -91,14 +91,14 @@ public class BinaryIO
                 return Decode(input);
             case LIST:
                 IBinaryList lst = IBinaryList.New();
-                var type = input.ReadByte();
-                var size = input.ReadInt();
+                byte type = input.ReadByte();
+                int size = input.ReadInt();
 
                 if(type == 0 && size > 0) throw new Exception("Find no type mark in BinaryList! Is the saving broken?");
 
-                for(var i = 0; i < size; i++)
+                for(int i = 0; i < size; i++)
                 {
-                    var data = DecodePrimitive(input, type);
+                    object data = DecodePrimitive(input, type);
                     lst.Insert(data);
                 }
 
@@ -118,19 +118,19 @@ public class BinaryIO
             case STR:
                 return input.ReadString();
             case BYTE_ARR:
-                var len = input.ReadInt();
-                var bytes = new byte[len];
+                int len = input.ReadInt();
+                byte[] bytes = new byte[len];
                 input.ReadBytes(bytes, len);
                 return bytes;
             case INT_ARR:
                 len = input.ReadInt();
-                var ints = new int[len];
-                for(var i = 0; i < len; i++) ints[i] = input.ReadInt();
+                int[] ints = new int[len];
+                for(int i = 0; i < len; i++) ints[i] = input.ReadInt();
                 return ints;
             case FLOAT_ARR:
                 len = input.ReadInt();
-                var fs = new float[len];
-                for(var i = 0; i < len; i++) fs[i] = input.ReadFloat();
+                float[] fs = new float[len];
+                for(int i = 0; i < len; i++) fs[i] = input.ReadFloat();
                 return fs;
         }
 
@@ -148,7 +148,7 @@ public class BinaryIO
                 IBinaryList lst = (IBinaryList)o;
                 output.WriteByte(lst.Type);
                 output.WriteInt(lst.Count);
-                foreach(var v in lst) EncodePrimitive(v, output);
+                foreach(object v in lst) EncodePrimitive(v, output);
 
                 break;
             case byte:
@@ -173,19 +173,19 @@ public class BinaryIO
                 output.WriteString((string)o);
                 break;
             case byte[]:
-                var bytes = (byte[])o;
+                byte[] bytes = (byte[])o;
                 output.WriteInt(bytes.Length);
                 output.WriteBytes(bytes);
                 break;
             case int[]:
-                var ints = (int[])o;
+                int[] ints = (int[])o;
                 output.WriteInt(ints.Length);
-                foreach(var i in ints) output.WriteInt(i);
+                foreach(int i in ints) output.WriteInt(i);
                 break;
             case float[]:
-                var fs = (float[])o;
+                float[] fs = (float[])o;
                 output.WriteInt(fs.Length);
-                foreach(var i in fs) output.WriteFloat(i);
+                foreach(float i in fs) output.WriteFloat(i);
                 break;
         }
     }
@@ -205,7 +205,7 @@ public class BinaryIO
     {
         if(!file.Exists) throw new FileNotFoundException($"Cannot find compound coded file at {file.Path}");
 
-        var bytes = PrimitiveIO.Read(file);
+        byte[] bytes = PrimitiveIO.Read(file);
         ByteBuffer buffer = new ByteBuffer(bytes);
         return Decode(buffer);
     }

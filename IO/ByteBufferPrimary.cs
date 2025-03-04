@@ -18,7 +18,7 @@ public partial class ByteBuffer
 
     static ByteBuffer()
     {
-        for(var i = 0; i <= TempSize; i++) TmpBytes.Add(new byte[i]);
+        for(int i = 0; i <= TempSize; i++) TmpBytes.Add(new byte[i]);
     }
 
     public ByteBuffer(int cap = DefaultCapacity)
@@ -66,10 +66,10 @@ public partial class ByteBuffer
     {
         if(futureLen > currLen)
         {
-            var size = GetPower2Len(currLen) * 2;
+            int size = GetPower2Len(currLen) * 2;
             if(futureLen > size) size = GetPower2Len(futureLen) * 2;
 
-            var newbuf = new byte[size];
+            byte[] newbuf = new byte[size];
             Array.Copy(Buf, 0, newbuf, 0, currLen);
             Buf = newbuf;
             Capacity = size;
@@ -80,10 +80,10 @@ public partial class ByteBuffer
 
     public void WriteBytes(byte[] bytes, int startIndex, int length)
     {
-        var offset = length - startIndex;
+        int offset = length - startIndex;
         if(offset <= 0) return;
-        var total = offset + WriteIndex;
-        var len = Buf.Length;
+        int total = offset + WriteIndex;
+        int len = Buf.Length;
         FixSizeAndReset(len, total);
         for(int i = WriteIndex, j = startIndex; i < total; i++, j++) Buf[i] = bytes[j];
 
@@ -117,7 +117,7 @@ public partial class ByteBuffer
 
     public void Clear()
     {
-        for(var i = 0; i < Buf.Length; i++) Buf[i] = 0;
+        for(int i = 0; i < Buf.Length; i++) Buf[i] = 0;
 
         ReadIndex = 0;
         WriteIndex = 0;
@@ -138,21 +138,21 @@ public partial class ByteBuffer
 
     public byte ReadByte()
     {
-        var b = Buf[ReadIndex];
+        byte b = Buf[ReadIndex];
         ReadIndex++;
         return b;
     }
 
     private byte[] Get(int index, int len)
     {
-        var bytes = len <= TempSize ? TmpBytes[len] : new byte[len];
+        byte[] bytes = len <= TempSize ? TmpBytes[len] : new byte[len];
         Array.Copy(Buf, index, bytes, 0, len);
         return Flip(bytes);
     }
 
     protected byte[] Read(int len)
     {
-        var bytes = Get(ReadIndex, len);
+        byte[] bytes = Get(ReadIndex, len);
         ReadIndex += len;
         return bytes;
     }

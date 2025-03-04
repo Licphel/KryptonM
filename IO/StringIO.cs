@@ -11,7 +11,7 @@ public class StringIO
     {
         StringBuilder sb = new StringBuilder();
 
-        foreach(var s in strs)
+        foreach(string s in strs)
         {
             if(!limiter.Invoke(s)) continue;
 
@@ -49,7 +49,7 @@ public class StringIO
     {
         using(StreamWriter r = new StreamWriter(file.Path))
         {
-            foreach(var s in arr) r.WriteLine(s);
+            foreach(string s in arr) r.WriteLine(s);
         }
     }
 

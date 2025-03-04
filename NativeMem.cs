@@ -11,7 +11,7 @@ public static unsafe class NativeMem
     {
         NativeManager.I0.Remind(() =>
         {
-            foreach(var ip in Disposes) MemFree((void*)ip);
+            foreach(IntPtr ip in Disposes) MemFree((void*)ip);
         });
     }
 
@@ -45,6 +45,16 @@ public static unsafe class NativeMem
         }
 
         return (T*)NativeMemory.Realloc(ptr, (UIntPtr)newcap);
+    }
+    
+    public static T* MemAllocate<T>(int cap, bool autorelease = true)
+        where T : unmanaged
+    {
+        cap *= sizeof(T);
+        T* p = (T*)NativeMemory.Alloc((UIntPtr)cap);
+        if(autorelease)
+            Disposes.Add((IntPtr)p);
+        return p;
     }
 
     public static void MemFree(void* ptr)

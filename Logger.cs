@@ -39,7 +39,7 @@ public class Logger
 
     public static void TryEndStreamWriting()
     {
-        foreach(var s in LineCache)
+        foreach(string s in LineCache)
             outw.WriteLine(s);
         outw.Close();
         outw = null;
@@ -48,7 +48,7 @@ public class Logger
     private static void Print(string level, string info)
     {
         Lines++;
-        var className = "-";
+        string className = "-";
 
         StackTrace stacks = new StackTrace(1);
         StackFrame frame = stacks.GetFrame(1);
@@ -65,13 +65,13 @@ public class Logger
             }
         }
 
-        var threadName = Thread.CurrentThread.Name;
+        string? threadName = Thread.CurrentThread.Name;
 
         if(string.IsNullOrWhiteSpace(threadName)) threadName = "-";
 
-        var time = DateTime.Now.ToString("u");
+        string time = DateTime.Now.ToString("u");
 
-        var outs = $"[{level}] [{threadName}] [{className}] [{time}] {info}";
+        string outs = $"[{level}] [{threadName}] [{className}] [{time}] {info}";
 
         switch(level)
         {
@@ -101,13 +101,13 @@ public class Logger
 
     public static void Fix(string info)
     {
-        var line = TailStack.Dequeue();
-        var s = LineCache[line];
+        int line = TailStack.Dequeue();
+        string s = LineCache[line];
 
         if(levelPrev != DEBUG)
         {
-            var pos1 = Console.CursorLeft;
-            var pos2 = Console.CursorTop;
+            int pos1 = Console.CursorLeft;
+            int pos2 = Console.CursorTop;
             try
             {
                 Console.SetCursorPosition(s.Length, line);

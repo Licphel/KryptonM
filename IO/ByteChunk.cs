@@ -24,7 +24,7 @@ public struct ByteChunk
     {
         get
         {
-            var bytes = new byte[Len];
+            byte[] bytes = new byte[Len];
             Array.Copy(Bytes, 0, bytes, 0, bytes.Length);
             return bytes;
         }

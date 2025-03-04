@@ -16,12 +16,12 @@ public class SemanticVersion : IComparable<SemanticVersion>
         Prefix = code[code.LastIndexOf('-')..];
         Snapshot = Prefix.Contains("Snapshot", StringComparison.OrdinalIgnoreCase);
         Stable = !Snapshot;
-        var vcode = code.Substring(code.LastIndexOf('-'));
-        var vers = vcode.Split('.');
+        string vcode = code.Substring(code.LastIndexOf('-'));
+        string[] vers = vcode.Split('.');
         long sta = 1;
-        foreach(var s in vers.Reverse())
+        foreach(string s in vers.Reverse())
         {
-            var v = int.Parse(s);
+            int v = int.Parse(s);
             Iteration += v * sta;
             sta *= 1000;
         }

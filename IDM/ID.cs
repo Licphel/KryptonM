@@ -42,7 +42,7 @@ public readonly struct ID
         }
         else
         {
-            var arr = path.Split(':');
+            string[] arr = path.Split(':');
             Space = arr[0];
             Key = arr[1];
         }
